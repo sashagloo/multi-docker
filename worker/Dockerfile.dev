@@ -1,0 +1,8 @@
+FROM node:alpine
+WORKDIR /app
+COPY package.json .
+RUN npm install
+COPY . .
+
+# code reload any time source has been changed. See `nodemon` & package.json -> scripts
+CMD ["npm", "run", "dev"]
