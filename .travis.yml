@@ -26,7 +26,7 @@ after_success:
   # log in to the Docker CLI
   - echo "$DOCKER_PSWD" | docker login -u "$DOCKER_ID" --password-stdin
   # push all created images to DockerHub
-  - docker push sashagloo/multi-client
-  - docker push sashagloo/multi-nginx
-  - docker push sashagloo/multi-server
-  - docker push sashagloo/multi-worker
+  - docker push -t sashagloo/multi-client
+  - docker push -t sashagloo/multi-nginx
+  - docker push -t sashagloo/multi-server
+  - docker push -t sashagloo/multi-worker
