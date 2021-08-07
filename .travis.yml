@@ -9,9 +9,24 @@ services:
   - docker
 
 before_install:
-  # Build image using Dockerfile.dev
-  - docker build -t sashagloo/multi-docker -f Dockerfile.dev .
+  # Build image of only client to test using Dockerfile.dev
+  - docker build -t sashagloo/react-test -f ./client/Dockerfile.dev ./client
 
 script:
-  # How to test
-  - docker run -e CI=true sashagloo/multi-docker npm run test  -- --coverage
+  # How to test using created image ~react-test`
+  - docker run -e CI=true USERNAME/react-test npm test -- --coverage
+#  - docker run -e CI=true sashagloo/react-test npm run test  -- --coverage
+
+after_success:
+  # build prod versions of all projects
+  - docker build -t sashagloo/multi-client ./client
+  - docker build -t sashagloo/multi-nginx ./nginx
+  - docker build -t sashagloo/multi-server ./server
+  - docker build -t sashagloo/multi-worker ./worker
+  # log in to the Docker CLI
+  - echo "$DOCKER_PSWD" | docker login -u "$DOCKER_ID" --password-stdin
+  # push all created images to DockerHub
+  - docker push -t sashagloo/multi-client
+  - docker push -t sashagloo/multi-nginx
+  - docker push -t sashagloo/multi-server
+  - docker push -t sashagloo/multi-worker
