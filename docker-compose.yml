@@ -39,7 +39,7 @@ services:
     environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
-  nginx:
+  nginx-router:
     restart: always
     build:
       dockerfile: Dockerfile.dev

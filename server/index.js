@@ -24,6 +24,7 @@ pgClient.on("connect", (client) => {
         .catch((err) => console.error(err));
 });
 
+
 // Redis Client Setup ---------------------------------------------------
 const redis = require("redis");
 const redisClient = redis.createClient({
@@ -32,6 +33,7 @@ const redisClient = redis.createClient({
     retry_strategy: () => 1000,
 });
 const redisPublisher = redisClient.duplicate();
+
 
 // Express route handler ---------------------------------------------------
 app.get("/", (req, res) => {
